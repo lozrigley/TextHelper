@@ -9,46 +9,58 @@ public class TextRemover : IDisposable
     private readonly MemoryStream _outputStream;
     private readonly StreamWriter _writer;
     private static readonly Regex _wordCharacterRegex = new(@"^[a-zA-Z\-]$", RegexOptions.Compiled);
-    private readonly List<Predicate<string>> _wordPredicates;
+    private readonly List<Predicate<string>> _predicates = new();
+    private readonly HashSet<char> _charactersToRemoveAfterRemovedWord = new() { ' ' };
+    //private char? _lastWrittenChar;
 
     public TextRemover()
     {
         _wordBuffer = new StringBuilder();
         _outputStream = new MemoryStream();
         _writer = new StreamWriter(_outputStream, Encoding.UTF8);
-        _wordPredicates = new List<Predicate<string>>();
     }
 
     public void AddPredicate(Predicate<string> predicate)
     {
-        _wordPredicates.Add(predicate);
+        _predicates.Add(predicate);
     }
 
     public async Task<Stream> ApplyFilters(Stream input)
     {
         using var reader = new StreamReader(input, Encoding.UTF8);
         int character;
-
+        bool processingWord = false;
+        bool lastCharWasFromAWord = false;
+        bool lastWordRemoved = false;
         while ((character = reader.Read()) != -1)
         {
             char c = (char)character;
-            
-            if (IsWordCharacter(c))
+
+            processingWord = IsWordCharacter(c);
+            if (processingWord)
             {
                 _wordBuffer.Append(c);
+                lastCharWasFromAWord = true;
             }
             else
             {
                 // Process any accumulated word
                 if (_wordBuffer.Length > 0)
                 {
-                    await ProcessWord();
+                    var result = await ProcessWord();
+                    lastWordRemoved = !result.WordWrittenToStream;
+
                 }
-                // Write the non-word character as is
+                if (lastWordRemoved && _charactersToRemoveAfterRemovedWord.Contains(c))
+                {
+                    continue;
+                }
+
                 await _writer.WriteAsync(c);
+
             }
         }
-
+        
         // Process any remaining word
         if (_wordBuffer.Length > 0)
         {
@@ -60,18 +72,20 @@ public class TextRemover : IDisposable
         return _outputStream;
     }
 
-    private async Task ProcessWord()
+    private async Task<ProcessWordResult> ProcessWord()
     {
         string word = _wordBuffer.ToString();
         _wordBuffer.Clear();
 
         // If any predicate returns true, discard the word
-        bool shouldDiscard = _wordPredicates.Any(predicate => predicate(word));
+        bool shouldDiscard = _predicates.Any(predicate => predicate(word));
         
         if (!shouldDiscard)
         {
             await _writer.WriteAsync(word);
         }
+        
+        return new ProcessWordResult(!shouldDiscard);
     }
 
     private bool IsWordCharacter(char c)
@@ -85,3 +99,5 @@ public class TextRemover : IDisposable
         _outputStream.Dispose();
     }
 }
+
+public record ProcessWordResult(bool WordWrittenToStream);
