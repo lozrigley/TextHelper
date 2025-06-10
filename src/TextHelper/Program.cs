@@ -25,23 +25,9 @@ namespace TextHelper
                 await using var fileStream = File.OpenRead(filePath);
                 using var textRemover = new TextRemover();
                 
-                // Filter1: Filter out words with vowels in the middle
-                textRemover.AddPredicate(word => 
-                {
-                    if (word.Length < 3) return false;
-                    
-                    int middleStart = (word.Length - 1) / 2;
-                    int middleLength = word.Length % 2 == 0 ? 2 : 1;
-                    string middle = word.Substring(middleStart, middleLength);
-                    
-                    return middle.Any(c => "aeiouAEIOU".Contains(c));
-                });
-
-                // Filter2: Filter out words shorter than 3 characters
-                //textRemover.AddPredicate(word => word.Length < 3);
-
-                // Filter3: Filter out words containing 't'
-                //textRemover.AddPredicate(word => word.Contains('t', StringComparison.OrdinalIgnoreCase));
+                textRemover.AddPredicate(Predicates.Filter1);
+                textRemover.AddPredicate(Predicates.Filter2);
+                textRemover.AddPredicate(Predicates.Filter3);
                 
                 var outputStream = await textRemover.ApplyFilters(fileStream);
                 

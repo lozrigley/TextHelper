@@ -64,7 +64,7 @@ public class TextRemover : IDisposable
         if (!shouldDiscard && word.Length > 0)
         {
             await _writer.WriteAsync(word);
-            await _writer.WriteAsync(' ');
+            //await _writer.WriteAsync(' ');
         }
     }
 
