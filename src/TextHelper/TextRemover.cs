@@ -39,10 +39,17 @@ public class TextRemover : IDisposable
             }
             else
             {
-                await ProcessWord();
+                // Process any accumulated word
+                if (_wordBuffer.Length > 0)
+                {
+                    await ProcessWord();
+                }
+                // Write the non-word character as is
+                await _writer.WriteAsync(c);
             }
         }
 
+        // Process any remaining word
         if (_wordBuffer.Length > 0)
         {
             await ProcessWord();
@@ -61,10 +68,9 @@ public class TextRemover : IDisposable
         // If any predicate returns true, discard the word
         bool shouldDiscard = _wordPredicates.Any(predicate => predicate(word));
         
-        if (!shouldDiscard && word.Length > 0)
+        if (!shouldDiscard)
         {
             await _writer.WriteAsync(word);
-            //await _writer.WriteAsync(' ');
         }
     }
 
