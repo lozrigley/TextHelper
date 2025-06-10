@@ -6,38 +6,33 @@ namespace TextHelper
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("Enter file path:");
-            string? filePath = Console.ReadLine();
-            
-            if (string.IsNullOrEmpty(filePath))
-            {
-                Console.WriteLine("No file path provided.");
-                return;
-            }
+            // string? filePath = Console.ReadLine();
+            //
+            // if (string.IsNullOrEmpty(filePath))
+            // {
+            //     Console.WriteLine("No file path provided.");
+            //     return;
+            // }
+
+            string filePath = Path.Combine("..", "..", "..", "File", "Text.txt");
 
             try
             {
-                StreamFileCharacterByCharacter(filePath);
+                await using var fileStream = File.OpenRead(filePath);
+                using var textRemover = new TextRemover();
+                var outputStream = await textRemover.ApplyFilters(fileStream);
+                
+                using var reader = new StreamReader(outputStream, Encoding.UTF8);
+                string result = await reader.ReadToEndAsync();
+                Console.WriteLine("\nProcessed text (only even-length words):");
+                Console.WriteLine(result);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-            }
-        }
-
-        static void StreamFileCharacterByCharacter(string filePath)
-        {
-            using var reader = new StreamReader(filePath, Encoding.UTF8);
-            int character;
-            
-            while ((character = reader.Read()) != -1)
-            {
-                char c = (char)character;
-                Console.Write(c);
-                // You can add a small delay here if you want to see the streaming effect
-                // Thread.Sleep(50);
             }
         }
     }
