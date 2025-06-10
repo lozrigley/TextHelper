@@ -9,7 +9,7 @@ public static class Predicates
         int middleStart = (word.Length - 1) / 2;
         int middleLength = word.Length % 2 == 0 ? 2 : 1;
         string middle = word.Substring(middleStart, middleLength);
-                    
+        var result = middle.Any(c => "aeiouAEIOU".Contains(c));
         return middle.Any(c => "aeiouAEIOU".Contains(c));
     };
 
