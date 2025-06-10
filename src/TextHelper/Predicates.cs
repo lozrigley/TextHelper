@@ -10,7 +10,7 @@ public static class Predicates
         int middleLength = word.Length % 2 == 0 ? 2 : 1;
         string middle = word.Substring(middleStart, middleLength);
         var result = middle.Any(c => "aeiouAEIOU".Contains(c));
-        return middle.Any(c => "aeiouAEIOU".Contains(c));
+        return middle.All(c => "aeiouAEIOU".Contains(c));
     };
 
     public static Predicate<string> Filter2 = word => word.Length < 3;
