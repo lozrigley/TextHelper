@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{93D9048E-FAB1-44D7-831C-D761498C6FBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextHelper", "src\TextHelper\TextHelper.csproj", "{310B1285-AE36-40E6-8498-7E4543D29F27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{B283AA70-9F71-4FDC-AF41-33D6D0EF5BCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextHelper.Tests", "test\TextHelper.Tests\TextHelper.Tests.csproj", "{AC8DF581-A578-4B72-9EBD-A0A592D17D51}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{310B1285-AE36-40E6-8498-7E4543D29F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{310B1285-AE36-40E6-8498-7E4543D29F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{310B1285-AE36-40E6-8498-7E4543D29F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{310B1285-AE36-40E6-8498-7E4543D29F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC8DF581-A578-4B72-9EBD-A0A592D17D51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC8DF581-A578-4B72-9EBD-A0A592D17D51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC8DF581-A578-4B72-9EBD-A0A592D17D51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC8DF581-A578-4B72-9EBD-A0A592D17D51}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{310B1285-AE36-40E6-8498-7E4543D29F27} = {93D9048E-FAB1-44D7-831C-D761498C6FBA}
+		{AC8DF581-A578-4B72-9EBD-A0A592D17D51} = {B283AA70-9F71-4FDC-AF41-33D6D0EF5BCA}
+	EndGlobalSection
+EndGlobal
