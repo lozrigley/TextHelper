@@ -10,14 +10,6 @@ namespace TextHelper
         static async Task Main(string[] args)
         {
             Console.WriteLine("Enter file path:");
-            // string? filePath = Console.ReadLine();
-            //
-            // if (string.IsNullOrEmpty(filePath))
-            // {
-            //     Console.WriteLine("No file path provided.");
-            //     return;
-            // }
-
             string filePath = Path.Combine("..", "..", "..", "File", "Text.txt");
 
             try
