@@ -11,7 +11,6 @@ public class TextRemover : IDisposable
     private static readonly Regex _wordCharacterRegex = new(@"^[a-zA-Z\-]$", RegexOptions.Compiled);
     private readonly List<Predicate<string>> _predicates = new();
     private readonly HashSet<char> _charactersToRemoveAfterRemovedWord = new() { ' ' };
-    //some code added by b
     //private char? _lastWrittenChar;
 
     public TextRemover()
