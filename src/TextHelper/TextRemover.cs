@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace TextHelper;
 
+//added some text branc a
 public class TextRemover : IDisposable
 {
     private readonly StringBuilder _wordBuffer;
